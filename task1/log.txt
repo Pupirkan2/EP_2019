@@ -1,0 +1,6 @@
+C:\Users\hp\Desktop\EP_2019> git log
+commit 6b9963c4fbd1d3e2a202c206d3b914e031f1884c (HEAD -> master)
+Author: Nikita Spiridonov <skl-accord@mail.ru>
+Date:   Fri Feb 15 19:22:17 2019 +0300
+
+    add .gitignore
