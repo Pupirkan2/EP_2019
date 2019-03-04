@@ -88,7 +88,8 @@ html, body {
 }
 
 #signin{
-     background-color: white;
+    background-color: rgba(0, 0, 0, .4);
+    background-image: url("Images/button-background.jpg");
     position: absolute;
     top: 30px;
     right: 50px;
@@ -96,7 +97,8 @@ html, body {
     margin: 0;
     font-size: 1.5em;
     font-weight: normal;
-    color: black;
+    color: white;
+    border-color: gray;
 }
 .left-column{
     position: fixed;
@@ -119,7 +121,6 @@ html, body {
 }
 
 #right-button{
-    background-color: white;
     position: fixed;
     height: 70px;
     right: 10px;
@@ -129,6 +130,7 @@ html, body {
     margin: 0;
     font-size: 1.5em;
     font-weight: normal;
+    background-color: white;
     color: black;
 }
 
@@ -166,4 +168,13 @@ html, body {
 }
 .tour-row:last-child {
     border: none;
+}
+
+#button-more{
+    width : 100%;
+    height : 70px;
+    background-color : snow;
+    border-color: snow;
+     font-size: 1.5em;
+    color:black;
 }
