@@ -87,6 +87,11 @@ html, body {
 
 }
 
+.row>img
+{
+    width: 100%;
+}
+
 #signin{
     background-color: rgba(0, 0, 0, .4);
     background-image: url("Images/button-background.jpg");
@@ -134,7 +139,7 @@ html, body {
     color: black;
 }
 
-.Information {
+.information {
     display: block;
     font-size: 1.2em;
     font color: black;
@@ -164,7 +169,7 @@ html, body {
 .tour-row {
     border-bottom: 2px solid gray;
     padding-bottom: 0em;
-    margin-bottom: -1em;
+    margin-bottom: 0em;
 }
 .tour-row:last-child {
     border: none;
