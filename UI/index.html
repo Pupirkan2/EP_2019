@@ -1,45 +1,77 @@
-<!DOCTYPE html> 
-<html> 
-<title>I mage</title> 
-<link rel="stylesheet" href="styles.css" /> 
+<!DOCTYPE html>
+<html>
+<title>I mage</title>
+<link rel="stylesheet" href="styles.css" />
 </head>
-    <body>
-        <header class="main-header">
-            <h1 class="name name-large">I mage</h1>
-            <div class="log-in">
-                <nav>
-            <button id = "signin">Sign in</button>
+
+<body>
+    <header class="main-header">
+        <h1 class="name name-large">I mage</h1>
+        <div class="log-in">
+            <nav>
+                <button id="signin">Sign in</button>
+        </div>
+        </nav>
+    </header>
+    <section class="content-section container">
+        <div>
+            <section class="all-photos">
+                <section id='posts'>
+                    <template id='temp'>
+                        <div class="post">
+                            <div class="row">
+                                <img id='photo'>
+                                <div><button class="btn btn-primary" type="button"><img src="Images/like.png"></button>
+                                </div>
+                                <span id="description"></span>
+                                <div class="tour-row">
+                                </div>
+                                <div class="tour-row">
+                                    <div id='user'></div>
+                                </div>
+                                <div class="tour-row">
+                                    <div id='date'></div>
+                                </div>
+                                <div class="tour-row">
+                                    <div id='hashtags' class="hashtags">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </section>
+        </div>
+        </div>
+        <div class="add-post">
+            <button id="right-button">Add photo</button>
+        </div>
+        <div class="left-column">
+            <div class="filters">
+                <input placeholder="date"></input>
+                <input placeholder="date"></input>
+                <p id="list">
+                    <input list="authors" placeholder="name">
+                    <datalist id="authors">
+                    </datalist>
+                </p>
+                </input>
+                <input placeholder="tag"></input>
             </div>
-            </nav>
-        </header>
-        <section class="content-section container">
-             <div>
-                  <section class="all-photos">
-                    </section>
-              </div>
-              <div class="add-post" >
-            <button id = "right-button" >Add photo</button>
-          </div>
-            <div class = "left-column">
-		<div class = "filters">
-		<input type =  "date"></input>
-		<input type =  "date"></input>
-		<input placeholder="name"></input>
-		<input placeholder="tag"></input>
-		</div>
-        </section>
-        <button id = "button-more">Download more...</button>
-        <footer class="main-footer">
-            <div class="footer-container main-footer-container">
-                            <p class="name">I mage </p>
-			                <p class="name">Spiridonov Nikita </p>
-			                 <p class="name">2 course 5 group </p>
-			                 <p class="name">skl-accord@mail.ru </p>
-			                <p class="name">03.03.2019</p>
-            </div>
-        </footer>
-    </body>
-<script src = "DOM.js"></script>
-<script src = "func.js"></script>
-<script src = "Controller.js"></script>
+        </div>
+    </section>
+    <button id="button-more">Load more...</button>
+    <footer class="main-footer">
+        <div class="footer-container main-footer-container">
+            <p class="name">I mage </p>
+            <p class="name">Spiridonov Nikita </p>
+            <p class="name">2 course 5 group </p>
+            <p class="name">skl-accord@mail.ru </p>
+            <p class="name">03.03.2019</p>
+        </div>
+    </footer>
+</body>
+<script src="DOM.js"></script>
+<script src="func.js"></script>
+<script src="Controller.js"></script>
+
 </html>
