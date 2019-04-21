@@ -1,38 +1,37 @@
-const testPage = (function () {
+const modul = (function () {
     return {
-      addPost(post) {
-        if (testCollection.add(post)) {
-          View.addPost(post);
+        addAll(posts) {
+            const error = testCollection.addAll(photoPosts);
+            View.showPosts(testCollection.getPage(0, 10 - error.length));
+            View.addAuthors(posts);
+        },
+        removePost(id) {
+            if (testCollection.remove(id)) {
+                View.removePost(id);
+            }
+        },
+        editPost(id, post) {
+            if (testCollection.edit(id, post)) {
+                View.editPost(id, post);
+            }
+        },
+        addPost(post) {
+            if (testCollection.add(post))
+                View.addPost(post);
         }
-      },
-      removePost(id) {
-        if (testCollection.remove(id)) {
-          View.removePost(id);
-        }
-      },
-      edit(id, newPost) {
-        if (testCollection.edit(id, newPost)) {
-          View.edit(id, newPost);
-        }
-      },
-      addAll(posts) {
-        const invalidPosts = testCollection.addAll(posts);
-        View.viewPosts(testCollection.getPage(0, 20));
-      },
-    };
-  }());
+    }
+})();
 
-  const testPost = {
-    id: '12',
-    description: 'test',
-    creationDate: '2019-03-06T14:10:25',
-    author: 'newAuthor',
-    photoLink: 'Images/nik.jpg',
-    hashTags: ['#hashtag'],
-    likes: [],
-  };
-  
-  testPage.addAll(photoPosts);
-  testPage.addPost(testPost);
-  testPage.removePost(10);
-  testPage.edit(1, { description: 'Darova', photoLink: 'Images/nik.jpg', hashTags: ['#yaya'] });
+
+modul.addAll(photoPosts);
+modul.removePost("3");
+modul.editPost("4", { description: "Changed", photoLink: "Images/involker.jpg" });
+modul.addPost({
+    id: '5',
+    description: 'mmmmmmmAAAAAA',
+    createdAt: new Date('2018-04-27T11:43:43'),
+    author: 'PRivet',
+    photoLink: 'Images/like.png',
+    hashTags: ['#raz', '#dva'],
+    likes: ["2"]
+});
