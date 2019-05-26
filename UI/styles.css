@@ -92,7 +92,7 @@ html, body {
     width: 100%;
 }
 
-#signin{
+.signin{
     background-color: rgba(0, 0, 0, .4);
     background-image: url("Images/button-background.jpg");
     position: absolute;
@@ -125,7 +125,7 @@ html, body {
     
 }
 
-#right-button{
+.add{
     position: fixed;
     height: 70px;
     right: 10px;
@@ -175,11 +175,164 @@ html, body {
     border: none;
 }
 
-#button-more{
+.button-more{
     width : 100%;
     height : 70px;
     background-color : snow;
     border-color: snow;
      font-size: 1.5em;
     color:black;
+}
+
+.elements {
+    height: 60px;
+    margin-bottom: 15px;
+}
+
+.like
+{
+    max-width:100%;
+    height:auto;
+    margin-top: 5px;
+    margin-left: 2%;
+    float: left;
+}
+
+.setting
+{
+    max-width:100%;
+    height:auto;
+    margin-top: 5px;
+    margin-left: 2%;
+    float: left;
+}
+
+.delete
+{
+    max-width:100%;
+    height:auto;
+    float: right;
+    margin-top: 5px;
+    margin-right: 3%;
+}
+
+.user{
+    text-align: center;
+    margin-top: -57px;
+    margin-bottom: 30px;
+    font-size: 3em;
+    font-weight: normal;
+    color: white;
+    border-color: gray;
+}
+
+.searchbutton {
+    left: 0px;
+    width: 120px;
+    text-align: center;
+    margin: 0;
+    font-size: 1.5em;
+    font-weight: normal;
+    background-color: white;
+    color: black;
+
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modalContent {
+    background-color: white;
+    margin: 5% auto;
+    border: 1px solid #888;
+    width: 50%;
+    text-align: center;
+}
+
+
+.signLogo{
+    text-align: center;
+    margin: 1vw auto;
+    width: 15vw;
+}
+
+.alignLogo{
+    display: block;
+    text-align: center;
+    width: 100%;
+    max-width: 100%;
+}
+
+#signInPhrase{
+    display: block;
+    text-align: center;
+    font-style: italic;
+    font-size: 2vw;
+}
+
+.filterField {
+    display: flex;
+    margin: auto;
+    background-color: white;
+    border-color: black;
+    border-width: thin;
+    white-space: nowrap;
+    height: 100%;
+    font-size: 1.2vw;
+    padding: 0.5% 1%;
+    width: 17%;
+}
+
+.filterField{
+    font-size: 2vw;
+    width: 28%;
+}
+
+.filterField{
+    font-size: 3vw;
+    width: 90%;
+    margin: 3% 2%;
+    border-width: thin;
+}
+
+.buttonStyle{
+    background-color: white;
+    white-space: nowrap;
+    margin: 4%;
+    height: 100%;
+    font-size: 3vw;
+    font-weight: bold;
+    font-size: 1.5em;
+    font-weight: normal;
+    color: gray;
+}
+
+.deleteWarning {
+    font-size: 2.5vw;
+}
+
+.closeButton{
+    background-color: white;
+    white-space: nowrap;
+    margin: 4%;
+    height: 100%;
+    font-size: 3vw;
+    font-weight: bold;
+    font-size: 1.5em;
+    font-weight: normal;
+    color: gray;
+}
+
+.descrArea{
+    font-size: 2vw;
 }
