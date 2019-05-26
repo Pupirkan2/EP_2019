@@ -1,0 +1,1 @@
+SELECT * FROM photopanda.photo_post order by CREATED_AT desc;
