@@ -1,37 +1,144 @@
 'use strict';
 class View {
-    _posts;
-    _user;
+    static _user;
+    static idToDelete;
+    static idToEdit;
+    static editOrAdd;
 
-    constructor() {
-    }
-
-
-    static addPhotoPostToHtml(photoPost) {
-        const posts = document.getElementById('posts');
-        const temp = document.getElementById('temp');
-        if (document.getElementById(photoPost.id) != null)
-            return;
-
-        let post = document.importNode(temp.content, true);
-
-        post.querySelector('div[class="post"]').id = photoPost.id;
-        post.getElementById('user').textContent = photoPost.author;
-        let str = "";
-        for (let i = 0; i < photoPost.hashTags.length; i++) {
-            str = str + photoPost.hashTags[i] + " ";
+    static setUser(name) {
+        View._user = name;
+        if (View._user === 'Guest') {
+            document.getElementById('add').style.visibility = "hidden";
+            document.getElementById('exit').style.display = "none";
+            document.getElementById('reg').style.display = "initial";
+            document.getElementById('username').style.visibility = "hidden";
         }
-        post.getElementById('hashtags').textContent = str;
-        post.getElementById('description').textContent = photoPost.description;
-        post.getElementById('photo').src = photoPost.photoLink;
-
-        post.getElementById('date').textContent = View.formatDate(photoPost.createdAt);
-
-        posts.append(post);
+        else {
+            document.getElementById('add').style.visibility = "visible";
+            document.getElementById('reg').style.display = "none";
+            document.getElementById('exit').style.display = "initial";
+            document.getElementById('username').style.visibility = "visible";
+            document.getElementById('username').textContent = name;
+        }
     }
+
+
+    static addPhotoPostToHtml(post) {
+        let elements = document.getElementById('posts');
+        let element = document.createElement("div");
+        element.id = post.id;
+        element.classList.add("posts");
+        let str = "";
+        for (let i = 0; i < post.hashTags.length; i++) {
+            str = str + post.hashTags[i] + " ";
+        }
+
+        let a = ` 
+        <section class="all-photos">
+        <div class="post" id=${post.id}>
+                            <div class="row">
+                                <img id='photo' src="${post.photoLink}">
+                                <div class="elements">
+                   
+                                <img id='cool' src="Images/like.png"  class="like">
+                                <img id='foo' src="Images/Unlike.png" class="like">
+                                <img id='edit'  src="Images/edit.png" class="setting">
+                                <img id='delete' src="Images/delete.png" class="delete">
+
+                                </div>
+                                <span id="description">${post.description}</span>
+                                <div class="tour-row">
+                                </div>
+                                <div class="tour-row">
+                                    <div id='user'>${post.author}</div>
+                                </div>
+                                <div class="tour-row">
+                                    <div id='date'>${View.formatDate(post.createdAt)}</div>
+                                </div>
+                                <div class="tour-row">
+                                    <div id='hashtags' class="hashtags">${str} 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </section>`;
+
+        element.innerHTML = a;
+        if (post.author !== View._user) {
+            element.querySelector('#delete').style.display = "none";
+            element.querySelector('#edit').style.display = "none";
+        }
+        var deleteModal = document.getElementById('deleteModal');
+        var tempUser = JSON.parse(localStorage.getItem('tempUser'));
+        if (tempUser !== "") {
+            if (!(post.likes && post.likes.indexOf(tempUser) === -1)) {
+                element.querySelector("#foo").style.display = "none";
+            }
+            else {
+                element.querySelector("#cool").style.display = "none";
+            }
+        }
+        else {
+            element.querySelector("#cool").style.display = "none";
+        }
+        elements.appendChild(element);
+
+
+        element.addEventListener('click', function (event) {
+            var target = event.target;
+
+            if (target.className === 'delete') {
+                View.idToDelete = post.id;
+                deleteModal.style.display = 'block';
+            }
+
+            if (target.className === 'setting') {
+                View.editOrAdd="";
+                document.getElementById('photoModal').src = post.photoLink;
+                document.getElementById('nameModal').textContent = post.author;
+                document.getElementById('dateModal').textContent = View.formatDate(post.createdAt);
+                document.getElementById('shortDescrModal').value = post.description;
+                document.getElementById('hashTagsModal').value = str;
+                editModal.style.display = 'block';
+                View.idToEdit = post.id;
+                View.editOrAdd = 'edit';
+            }
+
+            if (tempUser !== "" && View._user !== 'Guest') {
+                if (target.id === 'foo') {
+                    element.querySelector("#foo").style.display = "none";
+                    element.querySelector("#cool").style.display = "initial";
+                    post.likes.push(tempUser);
+                    testCollection.save();
+                }
+                if (target.id === 'cool') {
+                    element.querySelector("#foo").style.display = "initial";
+                    element.querySelector("#cool").style.display = "none";
+                    var index = post.likes.indexOf(tempUser);
+                    if (index >= 0) {
+                        post.likes.splice(index, 1);
+                    }
+                    testCollection.save();
+                }
+            }
+        });
+    }
+
 
     static addPost(post) {
-        this.addPhotoPostToHtml(post);
+        var posts = document.getElementById('posts');
+        var l = 0;
+        while (posts.firstChild) {
+            l = l + 1;
+            posts.removeChild(posts.firstChild);
+        }
+        var save = JSON.parse(localStorage.getItem('posts'));
+        save.push(post);
+        save.sort(View.compareTo);
+        for (var i = 0; i < l; i++) {
+            save[i].createdAt = new Date(save[i].createdAt);
+            View.addPhotoPostToHtml(save[i]);
+        }
     }
 
     static formatDate(date) {
@@ -62,17 +169,22 @@ class View {
     }
 
     static editPost(id, photoPost) {
-
         let post = document.getElementById(id);
         if (post != null) {
             if (photoPost.description !== undefined)
-                post.querySelector('span[id="description"]').textContent = photoPost.description;
+                post.querySelector('textarea[id="description"]').textContent = photoPost.description;
             if (photoPost.photoLink !== undefined)
                 post.querySelector('img[id="photo"]').src = photoPost.photoLink;
-            if (photoPost.hashtags !== undefined)
-                post.querySelector('div[id="hashtags"]').textContent = photoPost.hashtags;
+            if (photoPost.hashTags) {
+                let str = "";
+                for (let i = 0; i < photoPost.hashTags.length; i++) {
+                    str = str + photoPost.hashTags[i] + " ";
+                }
+                post.querySelector('div[id="hashtags"]').textContent = str;
+            }
         }
     }
+
     static addAuthors(posts) {
         let array = [];
         for (let i = 0; i < posts.length; i++)
@@ -88,6 +200,40 @@ class View {
         })
     }
 
+    static compareTo(a, b) {
+        if (a.createdAt > b.createdAt) {
+            return -1;
+        }
+        if (a.createdAt < b.createdAt) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    }
+
+    static addHashTags(photoPosts) {
+        for (var k = 0; k < photoPosts.length; k++) {
+            if (photoPosts[k].state === 'active' && typeof photoPosts[k].hashTags !== 'undefined') {
+                for (var i = 0; i < photoPosts[k].hashTags.length; i++) {
+                    var hasBeenHashtag = false;
+                    var optionHashtag = document.createElement('option');
+                    optionHashtag.value = photoPosts[k].hashTags[i];
+                    optionHashtag.innerHTML = photoPosts[k].hashTags[i];
+                    for (var j = 0; j < document.getElementById('hashtags').childNodes.length; j++) {
+                        if (document.getElementById('hashtags').childNodes.item(j).value === photoPosts[k].hashTags[i]) {
+                            hasBeenHashtag = true;
+                            break;
+                        }
+                    }
+                    if (!document.getElementById('hashtags').childNodes.length || !hasBeenHashtag) {
+                        document.getElementById('hashtags').appendChild(optionHashtag);
+                    }
+                }
+            }
+        }
+    }
+    
 
 
 

@@ -4,7 +4,7 @@ const photoPosts = [
         description: 'Geographical Position: The Republic of Belarus is situated in the eastern part of Europe. It covers 207 600 sq km and stretches for 650 km from east to west and for 560 km from north to south.',
         createdAt: new Date('2019-03-10T14:10:00'),
         author: 'Author1',
-        photoLink: 'Images/zu.jpg',
+        photoLink: 'Images/zasd.jpg',
         hashTags: ['213'],
         likes: []
     },
@@ -23,11 +23,92 @@ const photoPosts = [
         createdAt: new Date('2019-03-10T14:10:02'),
         author: 'Author3',
         photoLink: 'Images/involker.jpg',
-        hashTags: ['213', '117       '],
+        hashTags: ['213', '117 '],
         likes: []
     },
     {
         id: '4',
+        description: '207 600 sq km and',
+        createdAt: new Date('2019-03-10T14:10:03'),
+        author: 'Author4',
+        photoLink: 'Images/EtoYa.jpg',
+        hashTags: [],
+        likes: []
+    },
+    {
+        id: '5',
+        description: '207 600 sq km and',
+        createdAt: new Date('2019-03-10T14:10:03'),
+        author: 'Author4',
+        photoLink: 'Images/zasd.jpg',
+        hashTags: [],
+        likes: []
+    },
+    {
+        id: '6',
+        description: '207 600 sq km and',
+        createdAt: new Date('2019-03-10T14:10:03'),
+        author: 'Author4',
+        photoLink: 'Images/zu.jpg',
+        hashTags: [],
+        likes: []
+    },
+    {
+        id: '6',
+        description: '207 600 sq km and',
+        createdAt: new Date('2019-03-10T14:10:03'),
+        author: 'Author4',
+        photoLink: 'Images/EtoYa.jpg',
+        hashTags: [],
+        likes: []
+    },
+    {
+        id: '7',
+        description: '207 600 sq km and',
+        createdAt: new Date('2019-03-10T14:10:03'),
+        author: 'Author4',
+        photoLink: 'Images/zasd.jpg',
+        hashTags: [],
+        likes: []
+    },
+    {
+        id: '8',
+        description: '207 600 sq km and',
+        createdAt: new Date('2019-03-10T14:10:03'),
+        author: 'Author4',
+        photoLink: 'Images/EtoYa.jpg',
+        hashTags: [],
+        likes: []
+    },
+    {
+        id: '9',
+        description: '207 600 sq km and',
+        createdAt: new Date('2019-03-10T14:10:03'),
+        author: 'Author4',
+        photoLink: 'Images/zasd.jpg',
+        hashTags: [],
+        likes: []
+    },
+    {
+        id: '10',
+        description: '207 600 sq km and',
+        createdAt: new Date('2019-03-10T14:10:03'),
+        author: 'Author4',
+        photoLink: 'Images/zu.jpg',
+        hashTags: [],
+        likes: []
+    },
+    {
+        id: '11',
+        description: '207 600 sq km and',
+        createdAt: new Date('2019-03-10T14:10:03'),
+        author: 'Author4',
+        photoLink: 'Images/EtoYa.jpg',
+        hashTags: [],
+        likes: []
+    },
+    {
+        id: '12',
         description: '207 600 sq km and',
         createdAt: new Date('2019-03-10T14:10:03'),
         author: 'Author4',
@@ -45,6 +126,23 @@ class PostCollection {
     constructor(postsList, user) {
         this._posts = postsList.slice();
         this._user = user;
+    }
+
+    clear() {
+        this._posts = [];
+        this._user = "";
+    }
+
+
+    save() {
+        localStorage.setItem('posts', JSON.stringify(this._posts));
+    }
+
+    restore() {
+        if (!localStorage.getItem('posts')) {
+            localStorage.clear();
+            localStorage.setItem('posts', JSON.stringify(this._posts));
+        }
     }
 
     get(id) {
@@ -68,33 +166,34 @@ class PostCollection {
         }
     }
 
-    getPage(skip = 0, top = 10, filterConfig = {}) {
-        let foundPosts = this._posts.sort((post1, post2) => post1.creationDate - post2.creationDate);
-        if (filterConfig) {
-            if (Object.prototype.hasOwnProperty.call(filterConfig, 'author')) {
-                foundPosts = foundPosts.filter(post => post.author === filterConfig.author);
-            } else if (Object.prototype.hasOwnProperty.call(filterConfig, 'hashTags')) {
-                if (filterConfig.hashTags.length !== 0) {
-                    foundPosts = foundPosts.filter((post) => {
-                        for (let i = 0; i < filterConfig.hashTags.length; i++) {
-                            for (let j = 0; j < post.hashTags.length; j++) {
-                                if (post.hashTags[j] === filterConfig.hashTags[i]) {
-                                    return true;
-                                }
-                            }
-                        }
-                        return false;
-                    });
-                }
-            }
-        }
-        foundPosts = foundPosts.slice(skip, skip + top);
-        if (PostCollection._checkObject(foundPosts) && foundPosts.length !== 0) {
-            return foundPosts;
+    getPage(skip, top, filterConfig) {
+        var toShow = this._posts.filter(function (x) { return x.state !== 'deleted'; });
+
+        skip = skip || 0;
+        top = top || 10;
+
+        if (!filterConfig) {
+            toShow.sort(PostCollection.compareTo);
+            return toShow.slice(skip, skip + top);
         }
 
-        return null;
+        if (filterConfig) {
+            if (filterConfig.author) {
+                toShow = toShow.filter(function (x) { return x.author === filterConfig.author; });
+            }
+            if (filterConfig.createdAt) {
+                toShow = toShow.filter(function (x) { return (x.createdAt === filterConfig.createdAt); });
+            }
+            if (filterConfig.hashTags) {
+                toShow = toShow.filter(function (x) {
+                    return x.hashTags.indexOf(filterConfig.hashTags) !== -1;
+                });
+            }
+            toShow.sort(PostCollection.compareTo);
+            return toShow.slice(skip, skip + top);
+        }
     }
+
 
     add(photoPost) {
         if (!PostCollection._validate(photoPost)) {
@@ -115,35 +214,25 @@ class PostCollection {
         return error;
     }
 
-    edit(id, photoPost) {
-        if (!this.get(id)) {
-            return false;
-        }
-        let obj = this.get(id);
-        if ('hashTags' in photoPost) {
-            if (PostCollection._checkString(photoPost.hashTags)) {
-                let str = "";
-                for (let i = 0; i < photoPost.hashTags.length; i++) {
-                    str = str + photoPost.hashTags[i] + " ";
-                }
-                obj.hashTags = str;
+    edit(postID, editPost) {
+        var post = this.get(postID);
+        if (post != null && post.state === 'active') {
+            if (editPost.description) {
+                post.description = editPost.description;
             }
-            else return false;
+            if (editPost.photoLink) {
+                post.photoLink = editPost.photoLink;
+            }
+            if (editPost.hashTags) {
+                post.hashTags.splice(0, post.hashTags.length);
+                for (var i = 0; i < editPost.hashTags.length; i++) {
+                    post.hashTags[i] = editPost.hashTags[i];
+                }
+            }
+            this.save();
+            return true;
         }
-        if ('photoLink' in photoPost) {
-            if (!PostCollection.isEmpty(photoPost.photoLink))
-                obj.photoLink = photoPost.photoLink;
-            else
-                return false;
-        }
-        if ('description' in photoPost) {
-            obj.description = photoPost.description;
-        }
-        if (!PostCollection._validate(obj)) {
-            return false;
-        }
-        this.get(id) === obj;
-        return true;
+        return false;
     }
 
     static _validate(photoPost) {
@@ -207,15 +296,9 @@ class PostCollection {
         return typeof someString === 'string';
     }
 
-    clear() {
-        this._posts = [];
-    }
-
     static _checkObject(post) {
         return !!post;
     }
 }
 
 let testCollection = new PostCollection(photoPosts, '');
-
-

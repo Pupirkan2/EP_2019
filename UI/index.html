@@ -1,65 +1,53 @@
 <!DOCTYPE html>
+
 <html>
 <title>I mage</title>
 <link rel="stylesheet" href="styles.css" />
-</head>
 
 <body>
     <header class="main-header">
         <h1 class="name name-large">I mage</h1>
-        <div class="log-in">
-            <nav>
-                <button id="signin">Sign in</button>
-        </div>
-        </nav>
+        
+                <button id="reg" class="signin" >Sign in</button>
+                <button id="exit" class="signin" >Exit</button>
+                <div id='username' class="user"></div>
+
     </header>
     <section class="content-section container">
         <div>
-            <section class="all-photos">
-                <section id='posts'>
-                    <template id='temp'>
-                        <div class="post">
-                            <div class="row">
-                                <img id='photo'>
-                                <div><button class="btn btn-primary" type="button"><img src="Images/like.png"></button>
-                                </div>
-                                <span id="description"></span>
-                                <div class="tour-row">
-                                </div>
-                                <div class="tour-row">
-                                    <div id='user'></div>
-                                </div>
-                                <div class="tour-row">
-                                    <div id='date'></div>
-                                </div>
-                                <div class="tour-row">
-                                    <div id='hashtags' class="hashtags">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </template>
-                </section>
+            
+                    <section id='posts'>
+                        
+                        </section>
+     
         </div>
         </div>
         <div class="add-post">
-            <button id="right-button">Add photo</button>
+            <button id='add' class="add">Add photo</button>
         </div>
         <div class="left-column">
             <div class="filters">
-                <input placeholder="date"></input>
-                <input placeholder="date"></input>
+                <input placeholder="date"  id="dateFilter"></input>
                 <p id="list">
-                    <input list="authors" placeholder="name">
+                    <input list="authors" placeholder="name"  id="authorFilter">
                     <datalist id="authors">
                     </datalist>
                 </p>
                 </input>
-                <input placeholder="tag"></input>
+
+                        <input list="hashtags"  placeholder="tag" id="hashTagFilter">
+                            <datalist id="hashtags">
+                                </datalist>
+                                <li>
+                                        <button id="full" class="searchbutton" >Find</button>
+                                    </li>
             </div>
         </div>
     </section>
-    <button id="button-more">Load more...</button>
+    
+    <button  id='loadMore' class="button-more">Load more...</button>
+
+
     <footer class="main-footer">
         <div class="footer-container main-footer-container">
             <p class="name">I mage </p>
@@ -69,7 +57,51 @@
             <p class="name">03.03.2019</p>
         </div>
     </footer>
+
+    <!--sign in window -->
+    <div id="signInModal" class="modal">
+            <div class="modalContent">
+                <div class="signLogo">
+                    
+                </div>
+                <p style="display: none; color:red; font-size:3vw" id="wrongData">Try again!</p>
+                <input type="text" placeholder="username" class="filterField" id="login">
+                <input type="password" placeholder="password" class="filterField" id="password">
+                <button class="buttonStyle" id="signIN">Log in</button>
+            </div>
+        </div>
+    
+    
+        <!--delete post window -->
+        <div id="deleteModal" class="modal">
+            <div class="modalContent">
+                <p class="deleteWarning">Are you sure that you want delete this post?</p>
+                <button class="buttonStyle" id="yesDelete">Yes</button>
+                <button class="buttonStyle" id="noDelete">No</button>
+            </div>
+        </div>
+    
+    
+        <!--edit or add post window -->
+        <div id="editModal" class="modal">
+            <div class="modalContent">
+                <input type="url" name="pic" accept="image/*" placeholder="Image url" id="imageURL">
+                <button class="closeButton" id="upload">Download photo</button>
+    
+                <button class="closeButton" id="close">X</button>
+                <img id="photoModal" src="" width=80%>
+                <div id="descrModal">
+                    <p id="nameModal"></p>
+                    <p id="dateModal"></p>
+                    <br>
+                    <textarea id="shortDescrModal" class="descrArea" placeholder="description"></textarea>
+                    <textarea id="hashTagsModal" class="descrArea" placeholder="#"></textarea>
+                </div>
+                <button class="buttonStyle" id="okEdit">OK</button>
+            </div>
+        </div>
 </body>
+<script src="eventListeners.js"></script>
 <script src="DOM.js"></script>
 <script src="func.js"></script>
 <script src="Controller.js"></script>
