@@ -1,0 +1,1 @@
+SELECT * FROM photopanda.photo_post WHERE USER_ID=(SELECT USER_ID FROM photopanda.user WHERE NAME='Egor') AND CREATED_AT='2019-05-01';
